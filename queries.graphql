@@ -1,0 +1,103 @@
+query FindRepo {
+  repository(owner: "circleci-ksember", name: "test-android") {
+    id
+    nameWithOwner
+    description
+    url
+    owner {
+      login
+    }
+    name
+    defaultBranchRef {
+      name
+    }
+    branchProtectionRules(first: 10) {
+      nodes {
+        id
+        pattern
+        restrictsPushes
+        requiresStatusChecks
+        requiresLinearHistory
+        requiresCodeOwnerReviews
+        requiresApprovingReviews
+        requiresCommitSignatures
+        restrictsReviewDismissals
+        requiresStrictStatusChecks
+        allowsForcePushes
+        isAdminEnforced
+        requiresConversationResolution
+        requiresApprovingReviews
+        dismissesStaleReviews
+        allowsDeletions
+        requiredApprovingReviewCount
+      }
+    }
+  }
+}
+
+mutation CreateIssue {
+  createIssue(input: {repositoryId: "R_kgDOGvXQfA", title: "TestIssue", body: "Not able to create an issue"}) {
+    issue {
+      number
+      body
+    }
+  }
+}
+
+mutation CreateBranchProtection {
+  createBranchProtectionRule(input: {repositoryId: "R_kgDOGvXQfA", 
+    allowsDeletions: false, pattern: "main",isAdminEnforced: true, 
+    requiresCodeOwnerReviews: true, 
+    requiresConversationResolution: true, 
+    requiresApprovingReviews: true}) {
+    branchProtectionRule{
+        id
+        pattern
+        restrictsPushes
+        requiresStatusChecks
+        requiresLinearHistory
+        requiresCodeOwnerReviews
+        requiresApprovingReviews
+        requiresCommitSignatures
+        restrictsReviewDismissals
+        requiresStrictStatusChecks
+        allowsForcePushes
+        isAdminEnforced
+        requiresConversationResolution
+        requiresApprovingReviews
+        dismissesStaleReviews
+        allowsDeletions
+        requiredApprovingReviewCount
+    }
+  }
+}
+
+mutation UpdateBranchProtection {
+  updateBranchProtectionRule(input: {branchProtectionRuleId: "BPR_kwDOGvXQfM4BcXUe", 
+    allowsDeletions: false, pattern: "main",isAdminEnforced: true, 
+    restrictsPushes: false,
+    allowsForcePushes: false,
+    requiresCodeOwnerReviews: true, 
+    requiresConversationResolution: true, 
+    requiresApprovingReviews: true}) {
+    branchProtectionRule{
+        id
+        pattern
+        restrictsPushes
+        requiresStatusChecks
+        requiresLinearHistory
+        requiresCodeOwnerReviews
+        requiresApprovingReviews
+        requiresCommitSignatures
+        restrictsReviewDismissals
+        requiresStrictStatusChecks
+        allowsForcePushes
+        isAdminEnforced
+        requiresConversationResolution
+        requiresApprovingReviews
+        dismissesStaleReviews
+        allowsDeletions
+        requiredApprovingReviewCount
+    }
+  }
+}

@@ -8,10 +8,14 @@ This python web service listens to organization events, and then proceed to do t
 
 ## Getting Started
 
+### Software to Install
+
 This application requires the following to be installed:
 
 1. [Python 3](https://www.python.org/downloads/)
 2. [ngrok for Port Forwarding](https://ngrok.com/download)
+
+### Setting Up the Server
 
 Clone the repository using, and install the necessary dependencies using
 
@@ -49,9 +53,15 @@ Once the application is running locally, start the ngrok forwarding service
 
 The forwarding service will provide the forwarding address, such as `https://e710-68-133-71-158.ngrok.io`, which will be the WebHook's Payload URL, and the route additional path `/webhookReceived`. 
 
+### Create a WebHook
+
 To [set up a WebHook](https://docs.github.com/en/developers/webhooks-and-events/webhooks/creating-webhooks#setting-up-a-webhook) for the organization.
 
+<br>
+
 <img src="resources/webhookpage.png" alt="webhookpage" width="700"/>
+
+<br>
 
 The WebHook should be configured as follows:
 

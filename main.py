@@ -3,18 +3,18 @@ from types import SimpleNamespace
 import os
 import json
 
-from create_issue import createIssue
-from gather_info import getRepoInfo
-from git_initialize import initializeNewRep
-from create_branchrules import createBranchProtectionRule
+from modules.create_issue import createIssue
+from modules.gather_info import getRepoInfo
+from modules.git_initialize import initializeNewRep
+from modules.create_branchrules import createBranchProtectionRule
 
 
-# TODO: Remove the test variables
+# Necessary Variables That Can Be Modified
 TOKEN = os.environ.get("GH_AUTH_TOKEN")
 readMeFileToAdd = 'README.md'
-contentsOfReadMe = 'Auto Generated README'
-# ownerName = 'circleci-ksember'
-# newRepoName = 'test-android'
+contentsOfReadMe = '# Auto Generated README'
+assignedUser = 'klsember'
+
 
 # Default variables to connect to GitHub GraphQL API
 headers = {
@@ -78,7 +78,7 @@ def webhookReceived():
             
             # Create new Issue in Assigned Repository, with branch protection rules created for 
             # the default branch, and notified user with a @mention
-            issueResponse = createIssue(repositoryId, defaultBranch, "Thisis a placeholder", queryURL, headers)
+            issueResponse = createIssue(repositoryId, defaultBranch, assignedUser, "Thisis a placeholder", queryURL, headers)
             if issueResponse.status_code == 200:
                 print('Successfully created new issue with status code ', issueResponse.status_code)
             else:
@@ -91,4 +91,4 @@ def webhookReceived():
     return json.dumps(payloadData)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080, debug=False)
+    app.run(host='0.0.0.0', port=8080)

@@ -1,9 +1,8 @@
 query FindRepo {
-  repository(owner: "circleci-ksember", name: "test-android") {
+  repository(owner: "", name: "") {
     id
-    nameWithOwner
-    description
-    url
+    hasIssuesEnabled
+    isPrivate
     owner {
       login
     }
@@ -11,7 +10,7 @@ query FindRepo {
     defaultBranchRef {
       name
     }
-    branchProtectionRules(first: 10) {
+    branchProtectionRules(first: 5) {
       nodes {
         id
         pattern
@@ -36,7 +35,7 @@ query FindRepo {
 }
 
 mutation CreateIssue {
-  createIssue(input: {repositoryId: "R_kgDOGvXQfA", title: "TestIssue", body: "Not able to create an issue"}) {
+  createIssue(input: {repositoryId: "", title: "TestIssue", body: "Not able to create an issue"}) {
     issue {
       number
       body
@@ -45,7 +44,7 @@ mutation CreateIssue {
 }
 
 mutation CreateBranchProtection {
-  createBranchProtectionRule(input: {repositoryId: "R_kgDOGvXQfA", 
+  createBranchProtectionRule(input: {repositoryId: "", 
     allowsDeletions: false, pattern: "main",isAdminEnforced: true, 
     requiresCodeOwnerReviews: true, 
     requiresConversationResolution: true, 
@@ -73,7 +72,7 @@ mutation CreateBranchProtection {
 }
 
 mutation UpdateBranchProtection {
-  updateBranchProtectionRule(input: {branchProtectionRuleId: "BPR_kwDOGvXQfM4BcXUe", 
+  updateBranchProtectionRule(input: {branchProtectionRuleId: "", 
     allowsDeletions: false, pattern: "main",isAdminEnforced: true, 
     restrictsPushes: false,
     allowsForcePushes: false,

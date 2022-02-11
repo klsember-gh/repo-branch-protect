@@ -13,7 +13,7 @@ def createIssue(repositoryId, defaultbranch, user, branchrules, queryURL, header
     issueVariables = {
             'repositoryId': repositoryId,
             'title': 'Branch Protection Rules Created for Default Branch {}'.format(defaultbranch),
-            'body': '@{} created a new branch policy for {} with the following rules: {}'.format(user, defaultbranch, branchrules)
+            'body': '@{} created a new branch policy for `{}` with the following rules: \r\n | Branch Protection Rule | Value |\r\n |----------|-------| \r\n |`{}|'.format(user, defaultbranch, branchrules)
         }
     
     # Call API to Create Issue After Successful Branch Policy Creation

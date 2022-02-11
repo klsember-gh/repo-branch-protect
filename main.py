@@ -72,13 +72,17 @@ def webhookReceived():
         if pbresponse.status_code == 200:
             print('Branch Protection Policy for ', defaultBranch, ' successfully created with status code ', pbresponse.status_code)
             
-            # Assign Necessary Variables to pass to Issue's Body
+            # Assign Necessary Variables to pass to Issue's Body and hacky way to clean up the message
             bpResults = json.dumps(pbresponse.json())
             bpObjects = json.loads(bpResults, object_hook=lambda d: SimpleNamespace(**d))
-            
+            rules = str(bpObjects.data.createBranchProtectionRule.branchProtectionRule)
+            mdRules = rules.replace(', ','| \r\n| `')
+            mdRules2 = mdRules.replace('=','` | ')
+            messageBR = mdRules2[mdRules2.find("(")+1:mdRules2.find(")")]
+
             # Create new Issue in Assigned Repository, with branch protection rules created for 
             # the default branch, and notified user with a @mention
-            issueResponse = createIssue(repositoryId, defaultBranch, assignedUser, "Thisis a placeholder", queryURL, headers)
+            issueResponse = createIssue(repositoryId, defaultBranch, assignedUser, messageBR, queryURL, headers)
             if issueResponse.status_code == 200:
                 print('Successfully created new issue with status code ', issueResponse.status_code)
             else:

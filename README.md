@@ -77,7 +77,7 @@ Once a WebHook is set up, create a new repository in the organization to test th
 
 After the webhook has been set up, the [WebHook can be secured](https://docs.github.com/en/developers/webhooks-and-events/webhooks/securing-your-webhooks) using a Secret Token that can be configured on the WebHook and the server where the web service is cloned.
 
-### Resources Used
+## Resources Used
 
 1. [GitHub Webhooks and Events](https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads)
 2. [Intro to Webhooks and Python](https://towardsdatascience.com/intro-to-webhooks-and-how-to-receive-them-with-python-d5f6dd634476)

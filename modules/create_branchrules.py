@@ -15,7 +15,6 @@ def createBranchProtectionRule(repositoryId, defaultBranch, queryURL, headers):
         requiredApprovingReviewCount: 2,
         dismissesStaleReviews: true}) {
         branchProtectionRule{
-            id
             pattern
             restrictsPushes
             requiresStatusChecks
@@ -41,4 +40,5 @@ def createBranchProtectionRule(repositoryId, defaultBranch, queryURL, headers):
 
     # Call API to Create Branch Protection Policy for Default Branch
     response = requests.post(queryURL, json={'query': createBranchProtection, 'variables': bprotectRules}, headers=headers)
+    print(response.json)
     return response

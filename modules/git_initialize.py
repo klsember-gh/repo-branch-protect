@@ -1,6 +1,3 @@
-#!/usr/bin/env python3
-
-from secrets import token_hex
 import requests
 import base64
 import json
@@ -18,6 +15,6 @@ def initializeNewRep(owner, repo, branch, filename, contents, headers):
         'content': encodedContents
         }
     messageDump = json.dumps(message)
-    resp=requests.put(createFileUrl, data = messageDump, headers = headers)
+    resp=requests.put(createFileUrl, data = messageDump, headers=headers)
     
     return resp

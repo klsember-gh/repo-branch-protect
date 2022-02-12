@@ -1,10 +1,10 @@
 # Automatically Create Branch Protection Rules and Issues with GitHub API
 
-This python web service listens to organization events, and then proceed to do the following:
+This python web service listens to organization events and to identify when a new repository is created, and then proceed to do the following:
 
-1. Check if a repository has been initialized; if not, automatically commits a `Readme.md` to the repository
-2. Create a branch protection rule on the `default branch`
-3. Create an issue in newly created repository, outlining the policies created, and notifying a specific user with an `@mention`.
+1. Check if the new repository has been initialized; if not, automatically commit a `Readme.md` to the `main` branch
+2. Create branch protection rules on the `default branch`
+3. Create an issue in newly created repository, outlining the policies created, and notifying a specific user with an `@mention` in the body of the issue.
 
 ## Getting Started
 
@@ -36,6 +36,7 @@ TOKEN = os.environ.get("GH_AUTH_TOKEN") # GitHub Access Token Saved to Environme
 readMeFileToAdd = 'README.md' # File to Add if New Repo is Empty
 contentsOfReadMe = '# Auto Generated README' # Contents of File to Add
 assignedUser = 'klsember' # Assigned User to be notified in Created Issues
+logFileName = 'auto-create-branch-rules.log' # Name of log file to append to stored within the repo
 ```
 
 The application is currently set up to run on `http://127.0.0.1:5000`. This can be modified when running the web servier locally by passing in `--host` and `--port` parameters:
@@ -83,3 +84,4 @@ After the webhook has been set up, the [WebHook can be secured](https://docs.git
 2. [Intro to Webhooks and Python](https://towardsdatascience.com/intro-to-webhooks-and-how-to-receive-them-with-python-d5f6dd634476)
 3. [Ngrok for Exposing URLs](https://ngrok.com/docs#getting-started-expose)
 4. [Gatsby's Introduction to GraphiQL](https://www.gatsbyjs.com/docs/how-to/querying-data/running-queries-with-graphiql/)
+5. [Logging in Python](https://realpython.com/python-logging/)

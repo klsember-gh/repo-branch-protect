@@ -73,7 +73,7 @@ def webhook_received():
             else:
                 default_branch = 'main'
                 logging.info('No default branch exists for the new repository and needs to be initialized.')
-                
+
                 # Assuming that all new initialized repos will create a README from main as default branch
                 new_response = initialize_new_repo(owner_name, new_repo_name, default_branch, README_FILE_ADD, CONTENTS_OF_README, headers)
                 if repo_response.status_code == 201:
@@ -108,9 +108,9 @@ def webhook_received():
                     logging.warning('Unable to create issue because the feature "Issues" has been disabled for the repository.')
             else:
                 logging.error(f'Branch Policy creation was unsuccessful and failed with status code {pbresponse.status_code}')
-        
+
         # Check for repository imports
-        else: 
+        else:
             logging.info('The Organization Event was not for a Repository newly created, nothing to change.')
     except KeyError as err:
         logging.info(f'Received KeyError, with reason {str(err)}')

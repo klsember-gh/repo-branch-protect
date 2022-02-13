@@ -1,4 +1,4 @@
-# Automatically Create Branch Protection Rules and Issues with GitHub API
+# Auto Create Branch Protection Rules and Issues with GitHub API
 
 This python web service listens to organization events and to identify when a new repository is created, and then proceed to do the following:
 

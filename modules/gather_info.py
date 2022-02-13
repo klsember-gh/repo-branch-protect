@@ -1,6 +1,6 @@
 import requests
 
-def getRepoInfo(ownerName, newRepoName, queryURL, headers):
+def get_repo_info(owner_name, new_repo_name, query_url, headers):
     query = """query ($owner: String!, $name: String!) {
             repository(owner: $owner, name: $name) {
                 id
@@ -37,9 +37,8 @@ def getRepoInfo(ownerName, newRepoName, queryURL, headers):
             }
         }"""
     variables = {
-            'owner': ownerName,
-            'name': newRepoName
+            'owner': owner_name,
+            'name': new_repo_name
         }
-    # TODO: use authenticated sessions
-    r = requests.post(queryURL, json={'query': query, 'variables': variables}, headers=headers)
-    return r
+    response = requests.post(query_url, json={'query': query, 'variables': variables}, headers=headers)
+    return response

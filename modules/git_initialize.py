@@ -1,20 +1,20 @@
-import requests
 import base64
 import json
+import requests
 
 
-def initializeNewRep(owner, repo, branch, filename, contents, headers):
-    encodedContents = base64.b64encode(contents.encode()).decode('utf-8')
+def initialize_new_repo(owner, repo, branch, filename, contents, headers):
+    encoded_contents = base64.b64encode(contents.encode()).decode('utf-8')
 
     # Then add intial file to empty trepository to initialize
-    createFileUrl='https://api.github.com/repos/{}/{}/contents/{}'.format(owner, repo, filename)
-    
+    create_file_url='https://api.github.com/repos/{}/{}/contents/{}'.format(owner, repo, filename)
+
     message = {
         'message': 'Auto Create README',
         'branch': branch,
-        'content': encodedContents
+        'content': encoded_contents
         }
-    messageDump = json.dumps(message)
-    resp=requests.put(createFileUrl, data = messageDump, headers=headers)
-    
+    message_dump = json.dumps(message)
+    resp=requests.put(create_file_url, data = message_dump, headers=headers)
+
     return resp

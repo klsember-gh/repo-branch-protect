@@ -32,11 +32,11 @@ export GH_AUTH_TOKEN=291tmjr0kc7ps1rah923e8vnqc
 In the `main.py` of the newly cloned repository, the following fields should be updated/confirmed based on your needs:
 
 ```py
-TOKEN = os.environ.get("GH_AUTH_TOKEN") # GitHub Access Token Saved to Environment
-readMeFileToAdd = 'README.md' # File to Add if New Repo is Empty
-contentsOfReadMe = '# Auto Generated README' # Contents of File to Add
-assignedUser = 'klsember' # Assigned User to be notified in Created Issues
-logFileName = 'auto-create-branch-rules.log' # Name of log file to append to stored within the repo
+gh_token = os.environ.get("GH_AUTH_TOKEN") # GitHub Access Token Saved to Environment
+README_FILE_ADD = 'README.md' # File to Add if New Repo is Empty
+CONTENTS_OF_README = '# Auto Generated README' # Contents of File to Add
+ASSIGNED_USER = 'klsember' # Assigned User to be notified in Created Issues
+LOG_FILENAME = 'auto-create-branch-rules.log' # Name of log file to append to stored within the repo
 ```
 
 The application is currently set up to run on `http://127.0.0.1:5000`. This can be modified when running the web servier locally by passing in `--host` and `--port` parameters:

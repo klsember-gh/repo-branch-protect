@@ -143,7 +143,6 @@ disable=print-statement,
         logging-fstring-interpolation,
         consider-using-f-string,
         missing-module-docstring,
-        missing-function-docstring,
         duplicate-code
 
 # Enable the message, report, category or checker with the given id(s). You can

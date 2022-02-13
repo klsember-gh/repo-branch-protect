@@ -1,6 +1,6 @@
 # Auto Create Branch Protection Rules and Issues with GitHub API
 
-This python web service listens to organization events and to identify when a new repository is created (or successfully imported), and then proceed to do the following:
+This python web service listens to organization events to identify when a new repository is created (or imported), and then proceeds to do the following:
 
 1. Check if the new repository has been initialized; if not, automatically commit a `Readme.md` to the `main` branch
 2. Create branch protection rules on the `default branch`
@@ -18,7 +18,7 @@ This application requires the following to be installed:
 
 ### Setting Up the Server
 
-Clone the repository using, and install the necessary dependencies using:
+Clone the repository and install the necessary dependencies using:
 
 ```bash
 pip install -r requirements.txt
@@ -27,7 +27,7 @@ pip install -r requirements.txt
 Create a [GitHub Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) named `GH_AUTH_TOKEN` with the necessary Full control of Private Repositories. This Token then should be added as a local environment variable:
 
 ```bash
-export GH_AUTH_TOKEN=291tmjr0kc7ps1rah923e8vnqc
+export GH_AUTH_TOKEN={GitHub Access Token}
 ```
 
 In the `main.py` of the newly cloned repository, the following fields should be updated/confirmed based on your needs:

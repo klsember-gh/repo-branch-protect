@@ -1,5 +1,3 @@
-"""A dummy docstring."""
-
 import logging
 import os
 import json
@@ -40,11 +38,14 @@ def webhook_received():
     query_url = 'https://api.github.com/graphql'
 
     webhook_event = request.headers.get('X-GitHub-Event')
+    webhook_event_delivery =  request.headers.get('X-GitHub-Delivery')
     payload_data = request.json
 
     # Confirm the request has a json value
+
     if payload_data is None:
-        logging.warning('There was an issue accessing the Payload from the GitHub event.')
+        logging.error('There was an issue accessing the Payload from the GitHub event.')
+        raise Exception(f'There was an issue with the the webhook request {webhook_event_delivery}.')
 
     try:
         if webhook_event == 'repository' and payload_data['action'] == 'created':
@@ -81,38 +82,44 @@ def webhook_received():
 
                         # Assuming that all new initialized repos will create a README from main as default branch
                         contents_of_readme = '# {} \r\n Auto-generated readme file for empty repository.'.format(new_repo_name)
-                        initialize_new_repo( default_branch, contents_url, README_FILE_ADD, contents_of_readme, headers)
+                        initialize_new_repo(default_branch, contents_url, README_FILE_ADD, contents_of_readme, headers)
 
-                    else:
+                    elif import_response.ok:
                         import_status = import_response.json().get('status')
                         import_from = import_response.json().get('vcs_url')
 
-                        logging.info(f'The repo {new_repo_name} is is being imported, with a status of {import_status}.')
+                        logging.info(f'The repo {new_repo_name} is being imported, with a status of {import_status}.')
                         logging.info('Skipping the initialization of the new repo.')
                         logging.info('Creating issue to confirm that repository import was successful.')
                         if results_object.hasIssuesEnabled:
                             title = 'Imported Repo Notification'
-                            message = f'@{ASSIGNED_USER} - repository was to be imported from {import_from}, please confirm import was successful.'
+                            message = f"""@{ASSIGNED_USER} - repository was to be imported from {import_from}, please confirm import was successful.
+                                    \r\n \r\n **NOTE:** Branch Protection Rules will still be created
+                                    for the default branch even if the import is canceled."""
                             create_issue(repo_id, title, message, query_url, headers)
                         else:
                             logging.info('Issues is not enabled for this repository.')
+                    else:
+                        raise Exception("There was a problem validating if the repository was imported - exited with status code {import_response.status_code}.")
+
                 # Create Branch Protection rule for default branch
                 pb_response = create_branch_protection_rule(repo_id, default_branch, query_url, headers)
-                if pb_response.status_code == 200:
-                    logging.info(f'Branch Protection Policy for {default_branch} successfully created with status code: {pb_response.status_code}')
+                if pb_response.ok:
+                    logging.info(f'Branch Protection Policy for {default_branch} successfully created with status code: {pb_response.status_code}. (URL: {query_url})')
 
                     # Assign Necessary Variables to pass to Issue's Body and hacky way to clean up the message
                     bp_results = json.dumps(pb_response.json())
                     bp_objects = json.loads(bp_results, object_hook=lambda d: SimpleNamespace(**d))
+
+                    # Generating markdown table syntax of branch protection rules to include in issue body
                     rules = str(bp_objects.data.createBranchProtectionRule.branchProtectionRule)\
                         .replace(', ','| \r\n| `')\
                         .replace('=','` | ')
                     message_brules = rules[rules.find("(")+1:rules.find(")")]
 
-                    # Confirm that hasIssuesEnabled is set to true before proceeding
                     if results_object.hasIssuesEnabled:
 
-                        # Create new Issue in Assigned Repository, with branch protection rules created for
+                        # Create new Issue in Assigned Repository, with branch protection rules in markdown table format, created for
                         # the default branch, and notified user with a @mention
                         title = f'Branch Protection Rules Created for Default Branch {default_branch}'
                         message = f"""@{ASSIGNED_USER} created a new branch policy for `{default_branch}` with the following rules:
@@ -122,7 +129,8 @@ def webhook_received():
                     else:
                         logging.warning('Unable to create issue because the feature "Issues" has been disabled for the repository.')
                 else:
-                    logging.error(f'Branch Policy creation was unsuccessful and failed with status code {pb_response.status_code}')
+                    logging.error(f'Branch Policy creation was unsuccessful and failed with status code {pb_response.status_code}. (URL: {query_url})')
+
             except KeyError as err:
                 logging.error(f'Received KeyError, with reason {str(err)}')
 

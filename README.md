@@ -13,17 +13,18 @@ This python web service listens to organization events and to identify when a ne
 This application requires the following to be installed:
 
 1. [Python 3](https://www.python.org/downloads/)
-2. [ngrok for Port Forwarding](https://ngrok.com/download)
+2. [Flask](https://flask.palletsprojects.com/en/2.0.x/installation/)
+3. [ngrok for Port Forwarding](https://ngrok.com/download)
 
 ### Setting Up the Server
 
-Clone the repository using, and install the necessary dependencies using
+Clone the repository using, and install the necessary dependencies using:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Create a [GitHub Acces Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) named `GH_AUTH_TOKEN` with the necessary Full control of Private Repositories. This Token then should be added as a local environment viarable:
+Create a [GitHub Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) named `GH_AUTH_TOKEN` with the necessary Full control of Private Repositories. This Token then should be added as a local environment variable:
 
 ```bash
 export GH_AUTH_TOKEN=291tmjr0kc7ps1rah923e8vnqc
@@ -39,12 +40,13 @@ ASSIGNED_USER = 'klsember' # Assigned User to be notified in Created Issues
 LOG_FILENAME = 'auto-create-branch-rules.log' # Name of log file to append to stored within the repo
 ```
 
-The application is currently set up to run on `http://127.0.0.1:5000`. This can be modified when running the web servier locally by passing in `--host` and `--port` parameters:
+To start the application, run the below, specifying the `host` and `port`:
 
 ```bash
 export FLASK_APP=main.py
 flask run --host=0.0.0.0 --port=8080
 ```
+
 
 Once the application is running locally, start the ngrok forwarding service
 
@@ -70,9 +72,12 @@ The WebHook should be configured as follows:
 * The Content type should be set to `application/json`
 * Secret should be left blank
 * Under **Which events would you like to trigger this webhook?**, choose **Let me select individual events.**
-    * To track when new repositories are created, ensure that only the `Repositories` box is checked.
+    * To track when new repositories are created,  only the `Repositories` box is to be checked
+    * Ensure the default `Pushes` is unchecked
 
-Once a WebHook is set up, create a new repository in the organization to test the service!
+Once a WebHook is set up, GitHub automatically sends a request to test the connection, which can be viewed under the [Recent Deliveries](https://docs.github.com/en/developers/webhooks-and-events/webhooks/testing-webhooks#listing-recent-deliveries) tab.
+
+Now, create a new repository in the organization to test the functionality of service!
 
 #### Note
 
@@ -83,5 +88,6 @@ After the webhook has been set up, the [WebHook can be secured](https://docs.git
 1. [GitHub Webhooks and Events](https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads)
 2. [Intro to Webhooks and Python](https://towardsdatascience.com/intro-to-webhooks-and-how-to-receive-them-with-python-d5f6dd634476)
 3. [Ngrok for Exposing URLs](https://ngrok.com/docs#getting-started-expose)
-4. [Gatsby's Introduction to GraphiQL](https://www.gatsbyjs.com/docs/how-to/querying-data/running-queries-with-graphiql/)
-5. [Logging in Python](https://realpython.com/python-logging/)
+4. [GitHub GraphQL API](https://docs.github.com/en/graphql)
+5. [Gatsby's Introduction to GraphiQL](https://www.gatsbyjs.com/docs/how-to/querying-data/running-queries-with-graphiql/)
+6. [Logging in Python](https://realpython.com/python-logging/)

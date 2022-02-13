@@ -6,7 +6,6 @@ import requests
 def initialize_new_repo(owner, repo, branch, filename, contents, headers):
     encoded_contents = base64.b64encode(contents.encode()).decode('utf-8')
 
-    # Then add intial file to empty trepository to initialize
     create_file_url='https://api.github.com/repos/{}/{}/contents/{}'.format(owner, repo, filename)
 
     message = {

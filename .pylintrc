@@ -181,7 +181,7 @@ score=yes
 [REFACTORING]
 
 # Maximum number of nested blocks for function / method body
-max-nested-blocks=5
+max-nested-blocks=10
 
 # Complete name of functions that never returns. When checking for
 # inconsistent-return-statements if a never returning function is called then
@@ -514,13 +514,13 @@ max-args=6
 max-attributes=7
 
 # Maximum number of boolean expressions in an if statement.
-max-bool-expr=5
+max-bool-expr=8
 
 # Maximum number of branch for function / method body.
-max-branches=18
+max-branches=20
 
 # Maximum number of locals for function / method body.
-max-locals=20
+max-locals=30
 
 # Maximum number of parents for a class (see R0901).
 max-parents=7
@@ -532,7 +532,7 @@ max-public-methods=20
 max-returns=6
 
 # Maximum number of statements in function / method body.
-max-statements=55
+max-statements=75
 
 # Minimum number of public methods for a class (see R0903).
 min-public-methods=2

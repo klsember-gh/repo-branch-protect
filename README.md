@@ -1,6 +1,6 @@
 # Auto Create Branch Protection Rules and Issues with GitHub API
 
-This python web service listens to organization events and to identify when a new repository is created, and then proceed to do the following:
+This python web service listens to organization events and to identify when a new repository is created (or successfully imported), and then proceed to do the following:
 
 1. Check if the new repository has been initialized; if not, automatically commit a `Readme.md` to the `main` branch
 2. Create branch protection rules on the `default branch`
@@ -35,7 +35,6 @@ In the `main.py` of the newly cloned repository, the following fields should be 
 ```py
 gh_token = os.environ.get("GH_AUTH_TOKEN") # GitHub Access Token Saved to Environment
 README_FILE_ADD = 'README.md' # File to Add if New Repo is Empty
-CONTENTS_OF_README = '# Auto Generated README' # Contents of File to Add
 ASSIGNED_USER = 'klsember' # Assigned User to be notified in Created Issues
 LOG_FILENAME = 'auto-create-branch-rules.log' # Name of log file to append to stored within the repo
 ```
@@ -54,11 +53,11 @@ Once the application is running locally, start the ngrok forwarding service
 ./ngrok http 8080
 ```
 
-The forwarding service will provide the forwarding address, such as `https://e710-68-133-71-158.ngrok.io`, which will be the WebHook's Payload URL, and the route additional path `/webhookReceived`. 
+The forwarding service will provide the forwarding address, such as `https://e710-68-133-71-158.ngrok.io`, which will be the Webhook's Payload URL, and the route additional path `/webhookReceived`. 
 
-### Create a WebHook
+### Create a Webhook
 
-To [set up a WebHook](https://docs.github.com/en/developers/webhooks-and-events/webhooks/creating-webhooks#setting-up-a-webhook) for the organization.
+To [set up a WebHook](https://docs.github.com/en/developers/webhooks-and-events/webhooks/creating-webhooks#setting-up-a-webhook) for the organization, navigate to the Organization Settings and the Webhooks page under **Code, planning, and automation**.
 
 <br>
 
@@ -66,7 +65,7 @@ To [set up a WebHook](https://docs.github.com/en/developers/webhooks-and-events/
 
 <br>
 
-The WebHook should be configured as follows:
+The webhook should be configured as follows:
 
 * The Payload URL should be set to the forwarding address and `/webhookReceived` (i.e. `https://e710-68-133-71-158.ngrok.io/webhookReceived`).
 * The Content type should be set to `application/json`
@@ -75,13 +74,13 @@ The WebHook should be configured as follows:
     * To track when new repositories are created,  only the `Repositories` box is to be checked
     * Ensure the default `Pushes` is unchecked
 
-Once a WebHook is set up, GitHub automatically sends a request to test the connection, which can be viewed under the [Recent Deliveries](https://docs.github.com/en/developers/webhooks-and-events/webhooks/testing-webhooks#listing-recent-deliveries) tab.
+Once a Webhook is set up, GitHub automatically sends a request to test the connection, which can be viewed under the [Recent Deliveries](https://docs.github.com/en/developers/webhooks-and-events/webhooks/testing-webhooks#listing-recent-deliveries) tab.
 
 Now, create a new repository in the organization to test the functionality of service!
 
 #### Note
 
-After the webhook has been set up, the [WebHook can be secured](https://docs.github.com/en/developers/webhooks-and-events/webhooks/securing-your-webhooks) using a Secret Token that can be configured on the WebHook and the server where the web service is cloned.
+After the webhook has been set up, the [webhook can be secured](https://docs.github.com/en/developers/webhooks-and-events/webhooks/securing-your-webhooks) using a Secret Token that can be configured on the webhook and the server where the web service is cloned.
 
 ## Resources Used
 

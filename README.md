@@ -6,9 +6,17 @@ This python web service listens to organization events to identify when a new re
 2. Create branch protection rules on the `default branch`
 3. Create an issue in newly created repository, outlining the policies created, and notifying a specific user with an `@mention` in the body of the issue.
 
+<details>
+<summary>Expand to View Service Flow Chart</summary>
+
+[![auto-repo-protect](https://mermaid.ink/img/pako:eNp1Us1O4zAQfpWRT0aCF-gBRJvQBrSrVWGFkHJxnUk7IrErewwqlHdfx3GBaHdzisbf33z2u9C2QTETbWdf9U45hoeiNhC_a_nbowPtUDF6WBKvwgbWuLee2LrDGVxcXMJc5gPsiT2UL2j4bBSYJ8BCPuJmZ-0zONRILzgFLRKokCvlgXcYQSd92CAaIENMqqM3bK4ypUiU4097hFLeI0ODrQodw8Ypo3fAFqzbKkNvismaz2OPzGS2WaVMKktZ_cM3ooD6vXX85bocXZ_QH2ElH6YU8mAsxw72fMj4VcLfyEXqDyrvAw7RtDUtuT7rw2vc2wet0fs2dFOvYcNKVp8N_BX0ENX62PuwFqzL6-JHOVhM-8iaVdK8PeWZj139cpZRp5rWoYt3862vCf1mpE9uIHWRR7dpdDddt0FW1A3h_mc3vq4mmgwy4lz06HpFTXyR78OkFnHnHmsxi785WC1q8xGhYd9EbtkMZYhZqzqP50IFtvcHo8WMXcATqCC1darPqI8_Oz75iw)](https://mermaid.live/edit#pako:eNp1Us1O4zAQfpWRT0aCF-gBRJvQBrSrVWGFkHJxnUk7IrErewwqlHdfx3GBaHdzisbf33z2u9C2QTETbWdf9U45hoeiNhC_a_nbowPtUDF6WBKvwgbWuLee2LrDGVxcXMJc5gPsiT2UL2j4bBSYJ8BCPuJmZ-0zONRILzgFLRKokCvlgXcYQSd92CAaIENMqqM3bK4ypUiU4097hFLeI0ODrQodw8Ypo3fAFqzbKkNvismaz2OPzGS2WaVMKktZ_cM3ooD6vXX85bocXZ_QH2ElH6YU8mAsxw72fMj4VcLfyEXqDyrvAw7RtDUtuT7rw2vc2wet0fs2dFOvYcNKVp8N_BX0ENX62PuwFqzL6-JHOVhM-8iaVdK8PeWZj139cpZRp5rWoYt3862vCf1mpE9uIHWRR7dpdDddt0FW1A3h_mc3vq4mmgwy4lz06HpFTXyR78OkFnHnHmsxi785WC1q8xGhYd9EbtkMZYhZqzqP50IFtvcHo8WMXcATqCC1darPqI8_Oz75iw)
+
+<br>
+</details>
+
 ## Getting Started
 
-### Software to Install
+### Software Needed
 
 This application requires the following to be installed:
 
@@ -16,9 +24,16 @@ This application requires the following to be installed:
 2. [Flask](https://flask.palletsprojects.com/en/2.0.x/installation/)
 3. [ngrok for Port Forwarding](https://ngrok.com/download)
 
-### Setting Up the Server
+### Set Up
 
-Clone the repository and install the necessary dependencies using:
+Clone the repository:
+
+```git
+git clone https://github.com/klsember-gh/repo-branch-protect.git
+cd repo-branch-protect
+```
+
+Install the necessary dependencies using:
 
 ```bash
 pip install -r requirements.txt
@@ -39,15 +54,23 @@ ASSIGNED_USER = 'klsember' # Assigned User to be notified in Created Issues
 LOG_FILENAME = 'auto-create-branch-rules.log' # Name of log file to append to stored within the repo
 ```
 
-To start the application, run the below, specifying the `host` and `port`:
+#### Start the Service
+The service can be run locally from command line with the following commands. Optionally, the `host` and `port` can be specified:
 
 ```bash
 export FLASK_APP=main.py
 flask run --host=0.0.0.0 --port=8080
 ```
 
+The service can also be run in a Docker container, exposing port 8080:
 
-Once the application is running locally, start the ngrok forwarding service
+```bash
+docker build -t auto-repo-protect:latest .
+docker run -dit -e GH_AUTH_TOKEN -p 8080:8080 --restart=unless-stopped auto-repo-protect:latest
+
+```
+
+Once the application is running, start the ngrok forwarding service
 
 ```bash
 ./ngrok http 8080

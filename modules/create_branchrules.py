@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import requests
 
 def create_branch_protection_rule(repository_id, default_branch, query_url, headers):

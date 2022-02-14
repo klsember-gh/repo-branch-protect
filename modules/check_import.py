@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import requests
 
 def check_import_repo(owner, repo_name, headers):
